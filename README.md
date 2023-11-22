@@ -10,6 +10,7 @@ In this project, I will explore the dynamic world of retail analytics with Bike 
 
 -Continuous Learning: Embrace the latest technologies, showcasing a commitment to continuous improvement and staying ahead in the data landscape.
 
+
 2.Project Highlights:
 
 -Dataset Source: Kaggle Competition - Bike Store Customer Analysis. 
@@ -19,6 +20,7 @@ In this project, I will explore the dynamic world of retail analytics with Bike 
 -Technologies Used: Azure Data Factory: Orchestrating the ETL (Extract, Transform, Load) processes efficiently. 
 
 -Data Lake Gen 2: Storing and managing structured and unstructured data securely. Azure Databricks: Leveraging distributed computing for advanced data analytics and machine learning.
+
 
 3.What to Expect:
 
