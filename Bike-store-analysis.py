@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ##### 1. Ingest csv files from Azure Data Lake into Azure Databricks 
+# MAGIC ##### 1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
 
 # COMMAND ----------
 
@@ -66,7 +66,6 @@ stores_df.createTempView("v_stores")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC
 # MAGIC select * from v_orders
 
 # COMMAND ----------
@@ -92,6 +91,11 @@ stores_df.createTempView("v_stores")
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE DATABASE demo
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ##### 4. Bike Store Sales and Customer Preferences Analysis - SQL& Python
 
@@ -106,6 +110,8 @@ stores_df.createTempView("v_stores")
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC CREATE TEMPORARY VIEW re_category_sales 
+# MAGIC AS 
 # MAGIC WITH category_sales AS (
 # MAGIC     SELECT
 # MAGIC         DISTINCT
@@ -123,6 +129,8 @@ stores_df.createTempView("v_stores")
 # MAGIC         v_order_items.product_id = v_products.product_id
 # MAGIC         
 # MAGIC )
+# MAGIC
+# MAGIC
 # MAGIC SELECT
 # MAGIC      v_categories.category_name AS category_name,
 # MAGIC     ROUND(SUM(line_subtotal),2) AS revenue,
@@ -164,7 +172,7 @@ EXTRACT(MONTH FROM order_date) AS month,
         SUM(quantity) AS units_sold
     FROM
         v_orders
-    INNER JOIN
+    LEFT JOIN
         v_order_items
     ON
         v_orders.order_id = v_order_items.order_id
@@ -178,7 +186,7 @@ EXTRACT(MONTH FROM order_date) AS month,
         category_name
     FROM
         v_products
-    INNER JOIN
+    LEFT JOIN
         v_categories
     ON
         v_products.category_id = v_categories.category_id
@@ -190,7 +198,7 @@ SELECT
     ROUND(AVG(units_sold),0) AS avg_units_sold
 FROM
     product_sales
-INNER JOIN
+LEFT JOIN
     product_categories
 ON
     product_sales.product_id = product_categories.product_id
@@ -200,7 +208,6 @@ GROUP BY
 
 result_df = spark.sql(query)
 
-# Display the DataFrame
 display(result_df)
 
 # Create a bar plot using Seaborn and Matplotlib
@@ -269,5 +276,40 @@ for axis in ax:
     axis.set_xlabel('')
 plt.show()
 
+
+
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ###### d. Shows a mix of customers with varying total transactions and corresponding ranks.
+# MAGIC        -Highlights both top-performing customers with consistent transaction patterns and instances where customers share the same rank due to equal transaction counts.
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- Selecting customer name, total transactions, and rank based on the number of transactions
+# MAGIC SELECT
+# MAGIC     c.first_name || ' ' || c.last_name AS customer_name,
+# MAGIC     COUNT(s.order_id) AS total_transactions,
+# MAGIC     RANK() OVER (ORDER BY COUNT(s.order_id) DESC) AS rank
+# MAGIC FROM
+# MAGIC     v_orders s
+# MAGIC LEFT JOIN
+# MAGIC     v_customers c
+# MAGIC ON s.customer_id = c.customer_id
+# MAGIC GROUP BY
+# MAGIC     1
+# MAGIC ORDER BY
+# MAGIC     2 DESC;
+# MAGIC
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #####5. Implement Full Load and Incremental Load
+# MAGIC
+
+# COMMAND ----------
 
 
