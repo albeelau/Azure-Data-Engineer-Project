@@ -1,6 +1,7 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ##### 1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
+# MAGIC ###Data Ingestion and Transformation with Azure Databricks
+# MAGIC #####1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
 
 # COMMAND ----------
 
@@ -47,7 +48,74 @@ stores_df = spark.read.csv("dbfs:/mnt/bikestoredata/bike-store-data/Bike Store D
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC #####2. Access dataframes using SQL by creating temporary views 
+# MAGIC #####2. Rename the columns 
+# MAGIC         - Change column name "storeId" to "store_id"
+# MAGIC         - Change column name "number" to "phone_number”
+
+# COMMAND ----------
+
+display(stores_df)
+
+# COMMAND ----------
+
+stores_renamed_df = stores_df.withColumnRenamed("storeId", "store_id") \
+.withColumnRenamed("number", "phone_number") 
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #####3. Ingest a new column as "ingestion_date" to DataFrame
+
+# COMMAND ----------
+
+from pyspark.sql.functions import current_timestamp
+
+# COMMAND ----------
+
+stores_final_df = stores_renamed_df.withColumn("ingestion_date", current_timestamp())
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #####4. Write the result to Datalake as parquet
+
+# COMMAND ----------
+
+stores_final_df.write.mode('overwrite').parquet("/mnt/bikestoredata/bike-store-data/Bike Store Datasets/stores_result")
+
+# COMMAND ----------
+
+display(spark.read.parquet("/mnt/bikestoredata/bike-store-data/Bike Store Datasets/stores_result"))
+
+# COMMAND ----------
+
+stores_final_df.write.format("parquet").saveAsTable("stores")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SHOW TABLES
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ###  Bike Store Sales and Customer Preferences Analysis - SQL& Python
+# MAGIC #####1. Create database to manage tables or views 
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE DATABASE IF NOT EXISTS demo
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SHOW DATABASES
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #####2. Access DataFrames using SQL by creating temporary views 
 
 # COMMAND ----------
 
@@ -70,22 +138,6 @@ stores_df.createTempView("v_stores")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC
-# MAGIC #####3. Create database to manage tables or views 
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC CREATE DATABASE IF NOT EXISTS demo
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SHOW DATABASES
-
-# COMMAND ----------
-
 # MAGIC %sql
 # MAGIC SHOW TABLES IN demo
 
@@ -97,12 +149,7 @@ stores_df.createTempView("v_stores")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ##### 4. Bike Store Sales and Customer Preferences Analysis - SQL& Python
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ###### a. Gather insights on category-level sales by calculating total revenue, units sold, and total orders for each product category within one year data(2016):  
+# MAGIC ##### a. Gather insights on category-level sales by calculating total revenue, units sold, and total orders for each product category within one year data(2016):  
 # MAGIC           -"Mountain Bikes" stands out as the top revenue-generating category, contributing the highest revenue of $3,030,775.71.
 # MAGIC           -"Cruisers Bicycles" have the highest number of units sold (2,063), indicating strong customer demand in this category.
 # MAGIC           -"Electric Bikes" and "Cyclocross Bicycles" have moderate revenue but lower unit sales and total orders. There may be opportunities for targeted marketing or promotions to boost sales in these categories.
@@ -150,7 +197,7 @@ stores_df.createTempView("v_stores")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###### b. Provides seasonal trends from the average of monthly units sold for each product category:
+# MAGIC ##### b. Provides seasonal trends from the average of monthly units sold for each product category:
 # MAGIC           -"Cyclocross Bicycles" and "Electric Bikes," show fluctuations in sales across different months.
 # MAGIC           -"Cyclocross Bicycles" and "Comfort Bicycles" become popular among customers throughout the year 2016.
 # MAGIC           -December show increased sales for several categories, possibly due to holiday shopping trends.
@@ -221,7 +268,7 @@ plt.show()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###### c. Analyse customer segmentation by distributing "repeat buyers" and "one-time buyers"/ "recent buyer" and "not recent buyer."/ "big spender," "average spender," and "low spender.
+# MAGIC ##### c. Analyse customer segmentation by distributing "repeat buyers" and "one-time buyers"/ "recent buyer" and "not recent buyer."/ "big spender," "average spender," and "low spender.
 # MAGIC          -Targeting strategies can be developed based on the customer segments. For example, specific marketing efforts could be directed towards one-time buyers to encourage repeat purchases.
 # MAGIC          -Understanding the characteristics of big spenders and targeting similar customers might be beneficial for increasing overall revenue.
 
@@ -282,7 +329,7 @@ plt.show()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###### d. Shows a mix of customers with varying total transactions and corresponding ranks.
+# MAGIC ##### d. Shows a mix of customers with varying total transactions and corresponding ranks.
 # MAGIC        -Highlights both top-performing customers with consistent transaction patterns and instances where customers share the same rank due to equal transaction counts.
 
 # COMMAND ----------
