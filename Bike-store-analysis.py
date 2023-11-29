@@ -354,8 +354,11 @@ plt.show()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC #####5. Implement Full Load and Incremental Load
-# MAGIC
+# MAGIC ####Maintain data pipeline 
+# MAGIC     - Version control and collaboration
+# MAGIC     - New or modified data incremental load 
+# MAGIC     - Schedule trigger with ADF
+# MAGIC     - Validate data
 
 # COMMAND ----------
 
