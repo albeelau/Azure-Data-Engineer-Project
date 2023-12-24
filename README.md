@@ -96,8 +96,13 @@ d. Shows a mix of customers with varying total transactions and corresponding ra
 ![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/c8df78d5-a4c5-4541-8c90-abb769d28744)
 
 # Maintain data pipeline
+- Schedule daily refresh and trigger an alart if fails:
+![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/41d75868-fa28-4346-a010-d482deeaf5b5)
+
 - Version control and collaboration
+![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/53e14e0b-11a9-4f57-a34c-cd066f814cb2)
+
 - New or modified data incremental load 
-- Schedule trigger with ADF
+- Pipeline schedule trigger with ADF
 - Validate data
 
