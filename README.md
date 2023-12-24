@@ -38,4 +38,13 @@ In this project, I will explore the dynamic world of retail analytics with Bike 
 
 
 # Data Ingestion and Transformation with Azure Databricks
-##1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
+1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
+![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/36067a9f-4f6e-43bd-a9c9-9f2ddc75f3d9)
+
+2. Read the files on dataframe
+![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/f5925afb-4c1f-436d-a054-fa15c1e497a7)
+
+3. Rename the columns
+![image](https://github.com/albeelau/Azure-Data-Engineer-Project/assets/77976477/8492349d-f4f7-402d-8ac9-84c90f531cab)
+
+
