@@ -35,3 +35,7 @@ In this project, I will explore the dynamic world of retail analytics with Bike 
 -Sales Trends Analysis: Uncovering actionable insights through trend analysis, forecasting, and anomaly detection.
 
 -Visualizations and Reporting: Presenting findings using compelling visualizations to facilitate data-driven decision-making.
+
+
+Data Ingestion and Transformation with Azure Databricks
+1. Ingest csv files from Azure Data Lake into Azure Databricks by SAS token
