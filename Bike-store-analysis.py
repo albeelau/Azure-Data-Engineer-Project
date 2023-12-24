@@ -89,7 +89,7 @@ display(spark.read.parquet("/mnt/bikestoredata/bike-store-data/Bike Store Datase
 
 # COMMAND ----------
 
-stores_final_df.write.format("parquet").saveAsTable("stores")
+stores_final_df.write.format("parquet").saveAsTable("stores_")
 
 # COMMAND ----------
 
@@ -156,6 +156,10 @@ stores_df.createTempView("v_stores")
 
 # COMMAND ----------
 
+
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC CREATE TEMPORARY VIEW re_category_sales 
 # MAGIC AS 
@@ -176,7 +180,6 @@ stores_df.createTempView("v_stores")
 # MAGIC         v_order_items.product_id = v_products.product_id
 # MAGIC         
 # MAGIC )
-# MAGIC
 # MAGIC
 # MAGIC SELECT
 # MAGIC      v_categories.category_name AS category_name,
@@ -359,7 +362,3 @@ plt.show()
 # MAGIC     - New or modified data incremental load 
 # MAGIC     - Schedule trigger with ADF
 # MAGIC     - Validate data
-
-# COMMAND ----------
-
-
