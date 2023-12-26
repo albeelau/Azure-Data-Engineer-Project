@@ -1,6 +1,6 @@
 # Azure-Data-Engineer-Project
 
-In this project, I will explore the dynamic world of retail analytics with Bike Store Customer Analysis and Sales Trends project. Leveraging a Kaggle competition dataset, this project delves into the diverse and intricate landscape of customer behavior and sales trends within a bike store by using Azure data factory and databricks.
+In this project, I will explore the dynamic world of retail analytics with Bike Store Customer Analysis and Sales Trends project. Leveraging a Kaggle competition dataset, this project delves into the diverse and intricate landscape of customer behavior and sales trends within a bike store by using Azure Data Factory and Databricks.
 
 # 1.Why Explore This Project?
 
